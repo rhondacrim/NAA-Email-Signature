@@ -1,0 +1,426 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>NAA Email Signature Generator</title>
+  <style>
+    :root{
+      --ua-crimson: #9e1b32;
+      --ink: #111;
+      --muted: #666;
+      --line: #e6e6e6;
+      --bg: #ffffff;
+      --soft: #f7f7f7;
+    }
+
+    html, body { background: var(--bg); color: var(--ink); margin: 0; }
+    body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif; }
+
+    .page {
+      max-width: 1060px;
+      margin: 0 auto;
+      padding: 22px 18px 40px 18px;
+    }
+
+    h1 {
+      font-size: 22px;
+      margin: 0 0 8px 0;
+      font-weight: 650;
+    }
+
+    .subnote {
+      font-size: 13px;
+      color: var(--muted);
+      margin: 0 0 18px 0;
+      line-height: 1.4;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+      align-items: start;
+    }
+
+    @media (max-width: 980px) {
+      .grid { grid-template-columns: 1fr; }
+    }
+
+    .card {
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: #fff;
+      padding: 18px;
+    }
+
+    .sectionTitle {
+      font-size: 34px;
+      letter-spacing: -0.02em;
+      margin: 10px 0 14px 0;
+      font-weight: 700;
+    }
+
+    .fieldRow {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    @media (max-width: 620px) {
+      .fieldRow { grid-template-columns: 1fr; }
+    }
+
+    label {
+      display: block;
+      font-size: 13px;
+      color: #222;
+      margin: 14px 0 6px 0;
+      font-weight: 600;
+    }
+
+    .req::after {
+      content: " *";
+      color: var(--ua-crimson);
+      font-weight: 700;
+    }
+
+    input {
+      width: 100%;
+      box-sizing: border-box;
+      padding: 12px 12px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      font-size: 15px;
+      outline: none;
+      background: #fff;
+    }
+
+    input:focus {
+      border-color: rgba(158, 27, 50, 0.45);
+      box-shadow: 0 0 0 3px rgba(158, 27, 50, 0.12);
+    }
+
+    .hint {
+      font-size: 12px;
+      color: var(--muted);
+      margin: 6px 0 0 0;
+    }
+
+    .lockedBox {
+      margin-top: 14px;
+      padding: 12px;
+      border: 1px solid var(--line);
+      background: var(--soft);
+      border-radius: 8px;
+      font-size: 13px;
+      color: #333;
+      line-height: 1.45;
+    }
+
+    .btnRow {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 16px;
+    }
+
+    button {
+      border: 1px solid var(--line);
+      background: #fff;
+      padding: 11px 12px;
+      border-radius: 9px;
+      font-size: 14px;
+      cursor: pointer;
+      font-weight: 650;
+    }
+
+    button.primary {
+      background: var(--ua-crimson);
+      border-color: var(--ua-crimson);
+      color: #fff;
+    }
+
+    button:disabled {
+      opacity: 0.55;
+      cursor: not-allowed;
+    }
+
+    .status {
+      margin-top: 10px;
+      font-size: 13px;
+      color: var(--muted);
+      min-height: 18px;
+    }
+
+    .previewCardTitle {
+      font-size: 16px;
+      font-weight: 700;
+      margin: 0 0 10px 0;
+    }
+
+    .previewBox {
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 14px;
+      min-height: 230px;
+      background: #fff;
+    }
+
+    .htmlBox {
+      margin-top: 14px;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 12px;
+      background: #fff;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+      font-size: 12px;
+      white-space: pre-wrap;
+      overflow-wrap: anywhere;
+    }
+
+    .microNote {
+      margin-top: 12px;
+      font-size: 12px;
+      color: var(--muted);
+      line-height: 1.45;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="page">
+    <h1>NAA Email Signature Generator</h1>
+    <p class="subnote">
+      Required fields are marked with an asterisk. This page generates your signature and lets you copy it.
+      Outlook on macOS can behave differently when saving signatures. If you need link styling preserved, edit signatures in Legacy Outlook first, then switch back.
+    </p>
+
+    <div class="grid">
+      <div class="card">
+        <div class="sectionTitle">Position &amp; Contact</div>
+
+        <label class="req" for="fullName">Full Name</label>
+        <input id="fullName" type="text" placeholder="Full Name" autocomplete="name" />
+
+        <div class="fieldRow">
+          <div>
+            <label class="req" for="jobTitle">Job Title</label>
+            <input id="jobTitle" type="text" placeholder="Job Title" />
+          </div>
+          <div>
+            <label for="additionalTitle">Additional Title</label>
+            <input id="additionalTitle" type="text" placeholder="Additional Title" />
+          </div>
+        </div>
+
+        <div class="fieldRow">
+          <div>
+            <label class="req" for="email">Email Address</label>
+            <input id="email" type="email" placeholder="example@ua.edu" autocomplete="email" />
+            <div class="hint">Example: example@ua.edu</div>
+          </div>
+          <div>
+            <label for="phone">Primary Phone</label>
+            <input id="phone" type="tel" placeholder="205-348-1549" autocomplete="tel" />
+            <div class="hint">Example: 205-348-1549</div>
+          </div>
+        </div>
+
+        <div class="lockedBox">
+          Locked fields for all signatures.
+          Unit: National Alumni Association
+          Unit link: https://alumni.ua.edu
+          Address: 206 Alumni Hall, Box 870148, Tuscaloosa, AL 35401
+          Bottom image: UANAA two line logo
+        </div>
+
+        <div class="btnRow">
+          <button class="primary" id="copyRich" disabled>Copy Signature</button>
+          <button id="copyHtml" disabled>Copy HTML</button>
+          <button id="reset">Reset</button>
+        </div>
+
+        <div class="status" id="status"></div>
+      </div>
+
+      <div class="card">
+        <div class="previewCardTitle">Signature Preview</div>
+        <div class="previewBox" id="preview"></div>
+
+        <div class="previewCardTitle" style="margin-top:14px;">Generated HTML</div>
+        <div class="htmlBox" id="htmlOut"></div>
+
+        <div class="microNote">
+          Tip. If a staff member reports blue links in New Outlook on macOS when the signature is inserted automatically, that is Outlook behavior. Creating or updating the signature in Legacy Outlook can preserve styling.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const UA_CRIMSON_RGB = "rgb(158, 27, 50)";
+    const UA_SITE = "https://www.ua.edu";
+    const NAA_SITE = "https://alumni.ua.edu";
+    const LOGO_URL = "https://alumni.ua.edu/wp-content/uploads/2025/02/UANAA-two-line.png";
+
+    const lockedAddress = {
+      roomBuilding: "206 Alumni Hall",
+      box: "870148",
+      city: "Tuscaloosa",
+      state: "AL",
+      zip: "35401"
+    };
+
+    const el = (id) => document.getElementById(id);
+
+    function clean(s) {
+      return (s || "").replace(/\s+/g, " ").trim();
+    }
+
+    function escapeHtml(s) {
+      return (s || "").replace(/[&<>"]/g, c => ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        "\"": "&quot;"
+      }[c]));
+    }
+
+    function digitsOnly(s) {
+      return clean(s).replace(/[^\d]/g, "");
+    }
+
+    function formatPhoneDisplay(s) {
+      const d = digitsOnly(s);
+      if (d.length === 10) return `(${d.slice(0,3)}) ${d.slice(3,6)}-${d.slice(6)}`;
+      return clean(s);
+    }
+
+    function isValidEmail(s) {
+      const v = clean(s).toLowerCase();
+      return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
+    }
+
+    function requiredOk() {
+      const nameOk = clean(el("fullName").value).length > 0;
+      const titleOk = clean(el("jobTitle").value).length > 0;
+      const emailOk = isValidEmail(el("email").value);
+      return nameOk && titleOk && emailOk;
+    }
+
+    function buildSignatureHTML() {
+      const fullName = clean(el("fullName").value);
+      const jobTitle = clean(el("jobTitle").value);
+      const additionalTitle = clean(el("additionalTitle").value);
+      const email = clean(el("email").value).toLowerCase();
+      const phoneRaw = clean(el("phone").value);
+
+      const phoneDigits = digitsOnly(phoneRaw);
+      const phoneDisplay = formatPhoneDisplay(phoneRaw);
+
+      const parts = [];
+      parts.push(`<span style="font-family: Helvetica, Arial, sans-serif; font-size: 10pt;">`);
+
+      parts.push(`<span style="color: ${UA_CRIMSON_RGB}; font-weight: bold; font-size: 13pt;">${escapeHtml(fullName)}</span><br>`);
+
+      parts.push(`<span style="font-weight: bold;">${escapeHtml(jobTitle)}</span><br>`);
+
+      if (additionalTitle) {
+        parts.push(`${escapeHtml(additionalTitle)}<br>`);
+      }
+
+      parts.push(`<br>`);
+
+      parts.push(`<a href="${NAA_SITE}" style="color: black; text-decoration: none;">National Alumni Association</a><br>`);
+      parts.push(`<a href="${UA_SITE}" style="color: ${UA_CRIMSON_RGB};">The University of Alabama</a><br><br>`);
+
+      parts.push(`${escapeHtml(lockedAddress.roomBuilding)}<br>`);
+      parts.push(`Box: ${escapeHtml(lockedAddress.box)}<br>`);
+      parts.push(`${escapeHtml(lockedAddress.city)}, ${escapeHtml(lockedAddress.state)} ${escapeHtml(lockedAddress.zip)}<br><br>`);
+
+      if (phoneDigits) {
+        parts.push(`Phone: <a href="tel:${phoneDigits}" style="color: black;">${escapeHtml(phoneDisplay)}</a><br>`);
+      }
+
+      parts.push(`<a href="mailto:${escapeHtml(email)}" style="color: black;">${escapeHtml(email)}</a><br><br>`);
+
+      parts.push(
+        `<img src="${LOGO_URL}" alt="The University of Alabama National Alumni Association" ` +
+        `style="display:block; width:300px; max-width:300px; height:auto; border:0;">`
+      );
+
+      parts.push(`</span>`);
+      return parts.join("");
+    }
+
+    function render() {
+      const ok = requiredOk();
+      el("copyRich").disabled = !ok;
+      el("copyHtml").disabled = !ok;
+
+      if (!ok) {
+        el("status").textContent = "Enter full name, job title, and a valid email address to enable copying.";
+      } else {
+        el("status").textContent = "";
+      }
+
+      const html = ok ? buildSignatureHTML() : "";
+      el("preview").innerHTML = html;
+      el("htmlOut").textContent = html;
+    }
+
+    async function copyHtml() {
+      const html = buildSignatureHTML();
+      await navigator.clipboard.writeText(html);
+      el("status").textContent = "HTML copied.";
+    }
+
+    async function copyRich() {
+      const html = buildSignatureHTML();
+      const plain = el("preview").innerText;
+
+      const blobHtml = new Blob([html], { type: "text/html" });
+      const blobText = new Blob([plain], { type: "text/plain" });
+
+      const item = new ClipboardItem({
+        "text/html": blobHtml,
+        "text/plain": blobText
+      });
+
+      await navigator.clipboard.write([item]);
+      el("status").textContent = "Signature copied. Paste into your email signature editor.";
+    }
+
+    function resetAll() {
+      el("fullName").value = "";
+      el("jobTitle").value = "";
+      el("additionalTitle").value = "";
+      el("email").value = "";
+      el("phone").value = "";
+      el("status").textContent = "";
+      render();
+    }
+
+    ["fullName","jobTitle","additionalTitle","email","phone"].forEach(id => {
+      el(id).addEventListener("input", render);
+    });
+
+    el("copyHtml").addEventListener("click", () => {
+      copyHtml().catch(() => {
+        el("status").textContent = "Copy failed. Try using Chrome, or copy from the Generated HTML box.";
+      });
+    });
+
+    el("copyRich").addEventListener("click", () => {
+      copyRich().catch(() => {
+        el("status").textContent = "Copy failed. Try using Chrome, or copy from the Generated HTML box.";
+      });
+    });
+
+    el("reset").addEventListener("click", resetAll);
+
+    render();
+  </script>
+</body>
+</html>
