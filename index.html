@@ -214,6 +214,14 @@
           </div>
         </div>
 
+        <label class="req" for="roomBuilding">Room &amp; Building</label>
+        <input id="roomBuilding" type="text" placeholder="206 Alumni Hall" />
+        <div class="hint">Example: 206 Alumni Hall</div>
+
+        <label class="req" for="boxNumber">Box Number</label>
+        <input id="boxNumber" type="text" placeholder="870148" />
+        <div class="hint">Example: 870148</div>
+
         <div class="fieldRow">
           <div>
             <label class="req" for="email">Email Address</label>
@@ -228,10 +236,10 @@
         </div>
 
         <div class="lockedBox">
-          Locked fields for all signatures.
-          Unit: National Alumni Association
-          Unit link: https://alumni.ua.edu
-          Address: 206 Alumni Hall, Box 870148, Tuscaloosa, AL 35401
+          Locked fields for all signatures.<br>
+          Unit: National Alumni Association (linked to https://alumni.ua.edu)<br>
+          City/State/Zip: Tuscaloosa, AL 35401<br>
+          Join link: https://join.ua.edu/naa?utm_source=esig&utm_medium=email&utm_id=membership<br>
           Bottom image: UANAA two line logo
         </div>
 
@@ -260,17 +268,11 @@
 
   <script>
     const UA_CRIMSON_RGB = "rgb(158, 27, 50)";
+    const UA_CRIMSON_HEX = "#9e1b32";
     const UA_SITE = "https://www.ua.edu";
-    const NAA_SITE = "https://alumni.ua.edu";
+    const NAA_SITE = "https://alumni.ua.edu/";
+    const JOIN_URL = "https://join.ua.edu/naa?utm_source=esig&utm_medium=email&utm_id=membership";
     const LOGO_URL = "https://alumni.ua.edu/wp-content/uploads/2025/02/UANAA-two-line.png";
-
-    const lockedAddress = {
-      roomBuilding: "206 Alumni Hall",
-      box: "870148",
-      city: "Tuscaloosa",
-      state: "AL",
-      zip: "35401"
-    };
 
     const el = (id) => document.getElementById(id);
 
@@ -306,13 +308,17 @@
       const nameOk = clean(el("fullName").value).length > 0;
       const titleOk = clean(el("jobTitle").value).length > 0;
       const emailOk = isValidEmail(el("email").value);
-      return nameOk && titleOk && emailOk;
+      const roomOk = clean(el("roomBuilding").value).length > 0;
+      const boxOk = clean(el("boxNumber").value).length > 0;
+      return nameOk && titleOk && emailOk && roomOk && boxOk;
     }
 
     function buildSignatureHTML() {
       const fullName = clean(el("fullName").value);
       const jobTitle = clean(el("jobTitle").value);
       const additionalTitle = clean(el("additionalTitle").value);
+      const roomBuilding = clean(el("roomBuilding").value);
+      const boxNumber = clean(el("boxNumber").value);
       const email = clean(el("email").value).toLowerCase();
       const phoneRaw = clean(el("phone").value);
 
@@ -335,15 +341,21 @@
       parts.push(`<a href="${NAA_SITE}" style="color: black; text-decoration: none;">National Alumni Association</a><br>`);
       parts.push(`<a href="${UA_SITE}" style="color: ${UA_CRIMSON_RGB};">The University of Alabama</a><br><br>`);
 
-      parts.push(`${escapeHtml(lockedAddress.roomBuilding)}<br>`);
-      parts.push(`Box: ${escapeHtml(lockedAddress.box)}<br>`);
-      parts.push(`${escapeHtml(lockedAddress.city)}, ${escapeHtml(lockedAddress.state)} ${escapeHtml(lockedAddress.zip)}<br><br>`);
+      parts.push(`${escapeHtml(roomBuilding)}<br>`);
+      parts.push(`Box: ${escapeHtml(boxNumber)}<br>`);
+      parts.push(`Tuscaloosa, AL 35401<br><br>`);
 
       if (phoneDigits) {
-        parts.push(`Phone: <a href="tel:${phoneDigits}" style="color: black;">${escapeHtml(phoneDisplay)}</a><br>`);
+        parts.push(`<a href="tel:${phoneDigits}" style="color: black;">${escapeHtml(phoneDisplay)}</a><br>`);
       }
 
       parts.push(`<a href="mailto:${escapeHtml(email)}" style="color: black;">${escapeHtml(email)}</a><br><br>`);
+
+      parts.push(
+        `<a href="${JOIN_URL}" style="color:${UA_CRIMSON_HEX}; text-decoration: underline;">` +
+        `Join today. Roll Tide forever.` +
+        `</a><br><br>`
+      );
 
       parts.push(
         `<img src="${LOGO_URL}" alt="The University of Alabama National Alumni Association" ` +
@@ -360,7 +372,7 @@
       el("copyHtml").disabled = !ok;
 
       if (!ok) {
-        el("status").textContent = "Enter full name, job title, and a valid email address to enable copying.";
+        el("status").textContent = "Enter full name, job title, room/building, box number, and a valid email address to enable copying.";
       } else {
         el("status").textContent = "";
       }
@@ -396,13 +408,15 @@
       el("fullName").value = "";
       el("jobTitle").value = "";
       el("additionalTitle").value = "";
+      el("roomBuilding").value = "";
+      el("boxNumber").value = "";
       el("email").value = "";
       el("phone").value = "";
       el("status").textContent = "";
       render();
     }
 
-    ["fullName","jobTitle","additionalTitle","email","phone"].forEach(id => {
+    ["fullName","jobTitle","additionalTitle","roomBuilding","boxNumber","email","phone"].forEach(id => {
       el(id).addEventListener("input", render);
     });
 
