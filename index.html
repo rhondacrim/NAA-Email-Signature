@@ -330,8 +330,8 @@
 
       parts.push(`<br>`);
 
-      parts.push(`<a href="${NAA_SITE}" style="color: ${UA_CRIMSON_RGB};">National Alumni Association</a><br>`);
-      parts.push(`<a href="${UA_SITE}" style="color: ${UA_CRIMSON_RGB};">The University of Alabama</a><br><br>`);
+      parts.push(`<a href="${NAA_SITE}" style="color: ${UA_CRIMSON_RGB}; font-weight: bold;">National Alumni Association</a><br>`);
+      parts.push(`<a href="${UA_SITE}" style="color: ${UA_CRIMSON_RGB};">The University of Alabama</a><br>`);
 
       parts.push(`${escapeHtml(roomBuilding)}<br>`);
       parts.push(`Box: ${escapeHtml(boxNumber)}<br>`);
@@ -344,14 +344,14 @@
       parts.push(`<a href="mailto:${escapeHtml(email)}" style="color: black;">${escapeHtml(email)}</a><br><br>`);
 
       parts.push(
-        `<a href="${JOIN_URL}" style="color:${UA_CRIMSON_HEX}; text-decoration: underline;">` +
+        `<a href="${JOIN_URL}" style="color:${UA_CRIMSON_HEX}; font-weight: bold; text-decoration: underline;">` +
         `Join today. Roll Tide forever.` +
         `</a><br><br>`
       );
 
       parts.push(
         `<img src="${LOGO_URL}" alt="The University of Alabama National Alumni Association" ` +
-        `style="display:block; width:200px; max-width:200px; height:auto; border:0;">`
+        `style="display:block; width:220px; max-width:220px; height:auto; border:0;">`
       );
 
       parts.push(`</span>`);
