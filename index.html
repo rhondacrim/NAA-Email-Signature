@@ -192,8 +192,8 @@
   <div class="page">
     <h1>NAA Email Signature Generator</h1>
     <p class="subnote">
-      Required fields are marked with an asterisk. This page generates your signature and lets you copy it.
-      Outlook on macOS can behave differently when saving signatures. If you need link styling preserved, edit signatures in Legacy Outlook first, then switch back.
+      This web application allows NAA staff to generate an email signature. Items noted with an asterisk (*) are required. If no information is entered in a field, it will not appear in the generated signature.
+      Many email clients will not preserve crimson links and will revert to blue.
     </p>
 
     <div class="grid">
@@ -208,30 +208,27 @@
             <label class="req" for="jobTitle">Job Title</label>
             <input id="jobTitle" type="text" placeholder="Job Title" />
           </div>
-          <div>
-            <label for="additionalTitle">Additional Title</label>
-            <input id="additionalTitle" type="text" placeholder="Additional Title" />
-          </div>
+          
         </div>
 
         <label class="req" for="roomBuilding">Room &amp; Building</label>
-        <input id="roomBuilding" type="text" placeholder="206 Alumni Hall" />
-        <div class="hint">Example: 206 Alumni Hall</div>
+        <input id="roomBuilding" type="text" placeholder="100 Alumni Hall" />
+        <div class="hint">Example: 100 Alumni Hall</div>
 
         <label class="req" for="boxNumber">Box Number</label>
-        <input id="boxNumber" type="text" placeholder="870148" />
-        <div class="hint">Example: 870148</div>
+        <input id="boxNumber" type="text" placeholder="870000" />
+        <div class="hint">Example: 870000</div>
 
         <div class="fieldRow">
           <div>
             <label class="req" for="email">Email Address</label>
-            <input id="email" type="email" placeholder="example@ua.edu" autocomplete="email" />
-            <div class="hint">Example: example@ua.edu</div>
+            <input id="email" type="email" placeholder="your.name@ua.edu" autocomplete="email" />
+            <div class="hint">Example: your.name@ua.edu</div>
           </div>
           <div>
             <label for="phone">Primary Phone</label>
-            <input id="phone" type="tel" placeholder="205-348-1549" autocomplete="tel" />
-            <div class="hint">Example: 205-348-1549</div>
+            <input id="phone" type="tel" placeholder="205-348-0000" autocomplete="tel" />
+            <div class="hint">Example: 205-348-0000</div>
           </div>
         </div>
 
@@ -260,7 +257,7 @@
         <div class="htmlBox" id="htmlOut"></div>
 
         <div class="microNote">
-          Tip. If a staff member reports blue links in New Outlook on macOS when the signature is inserted automatically, that is Outlook behavior. Creating or updating the signature in Legacy Outlook can preserve styling.
+          Note: If you receive email on different devices (phone, iPad, computer) using an app instead of a web browser, you will need to paste your signature on each device.
         </div>
       </div>
     </div>
@@ -338,12 +335,12 @@
 
       parts.push(`<br>`);
 
-      parts.push(`<a href="${NAA_SITE}" style="color: black; text-decoration: none;">National Alumni Association</a><br>`);
+      parts.push(`<a href="${NAA_SITE}" style="color: ${UA_CRIMSON_RGB};">National Alumni Association</a><br>`);
       parts.push(`<a href="${UA_SITE}" style="color: ${UA_CRIMSON_RGB};">The University of Alabama</a><br><br>`);
 
       parts.push(`${escapeHtml(roomBuilding)}<br>`);
       parts.push(`Box: ${escapeHtml(boxNumber)}<br>`);
-      parts.push(`Tuscaloosa, AL 35401<br><br>`);
+      parts.push(`Tuscaloosa, AL 35401<br>`);
 
       if (phoneDigits) {
         parts.push(`<a href="tel:${phoneDigits}" style="color: black;">${escapeHtml(phoneDisplay)}</a><br>`);
