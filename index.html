@@ -313,7 +313,6 @@
     function buildSignatureHTML() {
       const fullName = clean(el("fullName").value);
       const jobTitle = clean(el("jobTitle").value);
-      const additionalTitle = clean(el("additionalTitle").value);
       const roomBuilding = clean(el("roomBuilding").value);
       const boxNumber = clean(el("boxNumber").value);
       const email = clean(el("email").value).toLowerCase();
@@ -328,10 +327,6 @@
       parts.push(`<span style="color: ${UA_CRIMSON_RGB}; font-weight: bold; font-size: 13pt;">${escapeHtml(fullName)}</span><br>`);
 
       parts.push(`<span style="font-weight: bold;">${escapeHtml(jobTitle)}</span><br>`);
-
-      if (additionalTitle) {
-        parts.push(`${escapeHtml(additionalTitle)}<br>`);
-      }
 
       parts.push(`<br>`);
 
@@ -404,7 +399,6 @@
     function resetAll() {
       el("fullName").value = "";
       el("jobTitle").value = "";
-      el("additionalTitle").value = "";
       el("roomBuilding").value = "";
       el("boxNumber").value = "";
       el("email").value = "";
@@ -413,9 +407,9 @@
       render();
     }
 
-    ["fullName","jobTitle","additionalTitle","roomBuilding","boxNumber","email","phone"].forEach(id => {
-      el(id).addEventListener("input", render);
-    });
+    ["fullName","jobTitle","roomBuilding","boxNumber","email","phone"].forEach(id => {
+  el(id).addEventListener("input", render);
+});
 
     el("copyHtml").addEventListener("click", () => {
       copyHtml().catch(() => {
