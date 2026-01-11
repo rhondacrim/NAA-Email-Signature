@@ -3,6 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="format-detection" content="telephone=no">
   <title>NAA Email Signature Generator</title>
   <style>
     :root{
@@ -333,9 +334,13 @@
       parts.push(`<a href="${NAA_SITE}" style="color: ${UA_CRIMSON_RGB}; font-weight: bold;">National Alumni Association</a><br>`);
       parts.push(`<a href="${UA_SITE}" style="color: ${UA_CRIMSON_RGB};">The University of Alabama</a><br>`);
 
-      parts.push(`${escapeHtml(roomBuilding)}<br>`);
-      parts.push(`Box: ${escapeHtml(boxNumber)}<br>`);
-      parts.push(`Tuscaloosa, AL 35401<br>`);
+      parts.push(
+  `<span style="color:black; text-decoration:none;">` +
+  `${escapeHtml(roomBuilding)}<br>` +
+  `Box: ${escapeHtml(boxNumber)}<br>` +
+  `Tuscaloosa, AL 35401<br>` +
+  `</span>`
+);
 
       if (phoneDigits) {
         parts.push(`<a href="tel:${phoneDigits}" style="color: black;">${escapeHtml(phoneDisplay)}</a><br>`);
